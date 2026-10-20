@@ -73,15 +73,21 @@ h1, h2, h3 {
   pointer-events: none;
 }
 
-/* Era screen needs to be scrollable */
-#era.screen {
+/* Era & Teaching screens need to be scrollable */
+#era.screen,
+#teaching.screen {
   position: relative;
-  display: block;
   min-height: 100vh;
   overflow-y: auto;
 }
-#era.screen.active {
+#era.screen:not(.active),
+#teaching.screen:not(.active) {
+  display: none;
+}
+#era.screen.active,
+#teaching.screen.active {
   position: relative;
+  display: block;
   z-index: 10;
 }
 
@@ -217,6 +223,15 @@ button:active { transform: translateY(1px); }
   line-height: 1.8;
 }
 
+.home-actions {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
 #home .btn-pri {
   font-size: 1.15rem;
   padding: 0.75em 2em;
@@ -224,6 +239,30 @@ button:active { transform: translateY(1px); }
   display: inline-flex;
   align-items: center;
   gap: 0.5em;
+}
+
+.btn-sec {
+  background: rgba(224, 173, 74, 0.14);
+  color: var(--fg);
+  border: 1px solid var(--gold);
+  font-weight: 600;
+  border-radius: 50px;
+  padding: 0.75em 1.8em;
+  font-size: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5), inset 0 0 12px rgba(224,173,74,0.1);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.btn-sec:hover {
+  background: rgba(224, 173, 74, 0.28);
+  box-shadow: 0 6px 26px rgba(224,173,74,0.4), 0 0 12px rgba(224,173,74,0.3);
+  transform: translateY(-2px);
+  color: #fff;
 }
 
 .home-stats {

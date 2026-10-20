@@ -1,0 +1,1487 @@
+/* ═══════════════════════════════════════════════════
+   BharatMath — Interactive Teaching Hub & Activities
+   Design System & Styling
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  --teach-bg: #110a05;
+  --teach-surface: rgba(26, 17, 10, 0.92);
+  --teach-surface-light: rgba(45, 29, 18, 0.7);
+  --teach-border: rgba(224, 173, 74, 0.28);
+  --teach-border-glow: rgba(224, 173, 74, 0.6);
+  --teach-ancient: #d4882a;
+  --teach-ancient-bg: rgba(212, 136, 42, 0.12);
+  --teach-ancient-border: rgba(212, 136, 42, 0.4);
+  --teach-modern: #4da88a;
+  --teach-modern-bg: rgba(77, 168, 138, 0.12);
+  --teach-modern-border: rgba(77, 168, 138, 0.4);
+  --teach-parchment: #f4e8d3;
+  --teach-parchment-text: #26160c;
+  --teach-ink: #3b2010;
+}
+
+/* ── Container & Scroller ────────────────────────── */
+#teaching {
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 15%, rgba(40, 22, 12, 0.85) 0%, transparent 80%),
+    radial-gradient(ellipse 50% 40% at 85% 75%, rgba(198, 160, 91, 0.08) 0%, transparent 60%),
+    #0d0804;
+  color: var(--fg);
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.teach-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 6rem;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+/* ── Sticky Top Bar for Activities ──────────────── */
+.teach-nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.4rem;
+  background: rgba(20, 12, 7, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  margin-bottom: 2rem;
+  position: sticky;
+  top: 1rem;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.teach-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.teach-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(224, 173, 74, 0.12);
+  border: 1px solid var(--gold);
+  color: var(--fg);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.teach-back-btn:hover {
+  background: rgba(224, 173, 74, 0.28);
+  transform: translateX(-2px);
+  color: #fff;
+  box-shadow: 0 0 16px rgba(224, 173, 74, 0.35);
+}
+
+.teach-nav-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--gold2);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.teach-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.teach-xp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(224, 173, 74, 0.15);
+  border: 1px solid rgba(224, 173, 74, 0.4);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold);
+  box-shadow: inset 0 0 10px rgba(224, 173, 74, 0.15);
+}
+
+/* ── Teaching Hub Hero ───────────────────────────── */
+.teach-hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.teach-hero-om {
+  font-size: 2.5rem;
+  color: var(--gold);
+  opacity: 0.6;
+  margin-bottom: 0.5rem;
+}
+
+.teach-hero-tag {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.teach-hero h1 {
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
+  color: transparent;
+  background: linear-gradient(135deg, #fff5dc 0%, var(--gold2) 45%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  margin: 0.2rem 0 0.8rem;
+  letter-spacing: 0.02em;
+  filter: drop-shadow(0 2px 14px rgba(224, 173, 74, 0.3));
+}
+
+.teach-hero-desc {
+  color: var(--fg);
+  font-size: 1.05rem;
+  max-width: 680px;
+  margin: 0 auto 1.8rem;
+  line-height: 1.7;
+}
+
+.teach-journey-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1.5rem auto 0;
+  max-width: 820px;
+  padding: 0.75rem 1.2rem;
+  background: rgba(224, 173, 74, 0.06);
+  border: 1px solid rgba(224, 173, 74, 0.2);
+  border-radius: 50px;
+  font-size: 0.82rem;
+}
+
+.teach-journey-step {
+  color: var(--fg);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 500;
+}
+
+.teach-journey-step.active {
+  color: var(--gold2);
+  font-weight: 700;
+}
+
+.teach-journey-sep {
+  color: var(--gold);
+  opacity: 0.5;
+}
+
+/* ── Teaching Hub Cards Grid ─────────────────────── */
+.teach-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 1.8rem;
+  margin-top: 2rem;
+}
+
+.teach-card {
+  background: var(--teach-surface);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(224, 173, 74, 0.04);
+  transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans);
+}
+
+.teach-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.6;
+  transition: opacity var(--trans-fast);
+}
+
+.teach-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--teach-border-glow);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.7), 0 0 28px rgba(224, 173, 74, 0.25);
+}
+
+.teach-card:hover::before {
+  opacity: 1;
+}
+
+.teach-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+
+.teach-card-icon {
+  font-size: 2.6rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 8px rgba(224, 173, 74, 0.4));
+}
+
+.teach-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 12px;
+  background: rgba(224, 173, 74, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(224, 173, 74, 0.35);
+}
+
+.teach-card-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--gold2);
+  margin: 0 0 0.4rem;
+}
+
+.teach-card-tagline {
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+.teach-card-desc {
+  font-size: 0.92rem;
+  color: var(--fg);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.teach-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  border-top: 1px solid rgba(224, 173, 74, 0.15);
+  padding-top: 0.8rem;
+}
+
+.teach-card-xp {
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.teach-progress-wrap {
+  margin-bottom: 1.2rem;
+}
+
+.teach-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+
+.teach-progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.teach-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--ok) 100%);
+  border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.teach-card-btn {
+  width: 100%;
+  padding: 0.75rem 1.2rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: var(--rad-sm);
+  background: linear-gradient(135deg, rgba(224, 173, 74, 0.2) 0%, rgba(224, 173, 74, 0.1) 100%);
+  border: 1px solid var(--gold);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all var(--trans-fast);
+}
+
+.teach-card-btn:hover {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 100%);
+  color: #1a0d04;
+  box-shadow: 0 4px 20px rgba(224, 173, 74, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════
+   1. TWO PATHS (ANCIENT VS MODERN) STYLES
+   ═══════════════════════════════════════════════════ */
+
+.two-paths-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.problem-selector-tabs {
+  display: flex;
+  gap: 0.8rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(224, 173, 74, 0.2);
+}
+
+.prob-tab {
+  padding: 0.6rem 1.2rem;
+  background: rgba(26, 17, 10, 0.7);
+  border: 1px solid rgba(224, 173, 74, 0.25);
+  color: var(--muted);
+  border-radius: var(--rad-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--trans-fast);
+}
+
+.prob-tab:hover {
+  border-color: var(--gold);
+  color: var(--fg);
+}
+
+.prob-tab.active {
+  background: rgba(224, 173, 74, 0.2);
+  border-color: var(--gold);
+  color: var(--gold2);
+  box-shadow: 0 0 14px rgba(224, 173, 74, 0.25);
+}
+
+.two-paths-header-card {
+  background: var(--teach-surface);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  padding: 1.5rem 1.8rem;
+}
+
+.two-paths-prob-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: var(--gold2);
+  margin: 0 0 0.5rem;
+}
+
+.two-paths-source-tag {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.two-paths-hist-note {
+  background: rgba(224, 173, 74, 0.08);
+  border-left: 3px solid var(--gold);
+  padding: 0.7rem 1rem;
+  font-size: 0.88rem;
+  color: var(--fg);
+  border-radius: 0 var(--rad-sm) var(--rad-sm) 0;
+  line-height: 1.6;
+}
+
+/* Side by Side Split */
+.two-paths-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.8rem;
+}
+
+@media (max-width: 860px) {
+  .two-paths-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.path-column {
+  background: var(--teach-surface);
+  border-radius: var(--rad);
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.path-ancient {
+  border: 1px solid var(--teach-ancient-border);
+}
+
+.path-ancient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--teach-ancient);
+  border-radius: var(--rad) var(--rad) 0 0;
+}
+
+.path-modern {
+  border: 1px solid var(--teach-modern-border);
+}
+
+.path-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--teach-modern);
+  border-radius: var(--rad) var(--rad) 0 0;
+}
+
+.path-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.8rem;
+}
+
+.path-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.path-ancient .path-title { color: var(--teach-ancient); }
+.path-modern .path-title { color: var(--teach-modern); }
+
+.step-card {
+  background: rgba(18, 11, 6, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--rad-sm);
+  padding: 1.2rem;
+  transition: all var(--trans);
+  opacity: 0.4;
+  transform: translateY(6px);
+}
+
+.step-card.active {
+  opacity: 1;
+  transform: translateY(0);
+  border-color: rgba(224, 173, 74, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.step-card.completed {
+  opacity: 0.9;
+  transform: translateY(0);
+}
+
+.step-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+  color: var(--muted);
+}
+
+.step-card-title {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 0.5rem;
+}
+
+.step-math-box {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(224, 173, 74, 0.2);
+  border-radius: var(--rad-sm);
+  padding: 0.8rem 1rem;
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  font-size: 1.05rem;
+  color: var(--gold);
+  margin: 0.6rem 0;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.step-desc {
+  font-size: 0.88rem;
+  color: var(--fg);
+  line-height: 1.6;
+}
+
+/* Prediction Box */
+.prediction-box {
+  background: linear-gradient(135deg, rgba(35, 22, 13, 0.95) 0%, rgba(20, 12, 7, 0.95) 100%);
+  border: 1px solid var(--teach-border-glow);
+  border-radius: var(--rad);
+  padding: 1.8rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(224, 173, 74, 0.15);
+}
+
+.pred-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--gold2);
+  margin-bottom: 1rem;
+}
+
+.pred-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+@media (max-width: 600px) {
+  .pred-options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pred-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(224, 173, 74, 0.3);
+  color: var(--fg);
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--rad-sm);
+  font-size: 0.92rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.pred-btn:hover {
+  background: rgba(224, 173, 74, 0.15);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.pred-btn.correct {
+  background: rgba(126, 203, 106, 0.2) !important;
+  border-color: var(--ok) !important;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(126, 203, 106, 0.4);
+}
+
+.pred-btn.wrong {
+  background: rgba(232, 144, 122, 0.2) !important;
+  border-color: var(--bad) !important;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(232, 144, 122, 0.4);
+}
+
+.pred-feedback {
+  padding: 1rem 1.2rem;
+  border-radius: var(--rad-sm);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+  animation: fi 0.35s ease;
+}
+
+.pred-feedback.ok {
+  background: rgba(126, 203, 106, 0.15);
+  border: 1px solid var(--ok);
+  color: #f0fdf4;
+}
+
+.pred-feedback.hint {
+  background: rgba(200, 160, 32, 0.15);
+  border: 1px solid var(--gold);
+  color: #fefce8;
+}
+
+/* Practice Challenge */
+.practice-box {
+  background: var(--teach-surface);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  padding: 1.8rem;
+  margin-top: 1.5rem;
+}
+
+.practice-header {
+  font-family: 'Cinzel', serif;
+  font-size: 1.25rem;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.practice-input-row {
+  display: flex;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+  max-width: 480px;
+}
+
+.practice-input {
+  flex-grow: 1;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--gold);
+  border-radius: var(--rad-sm);
+  color: var(--fg);
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  outline: none;
+}
+
+/* ── Vedic Sūtra Masterclass & Mental Math Lab ──── */
+.vedic-masterclass-card {
+  background: linear-gradient(135deg, rgba(32, 20, 11, 0.95) 0%, rgba(18, 11, 6, 0.98) 100%);
+  border: 1px solid var(--teach-border-glow);
+  border-radius: var(--rad);
+  padding: 1.8rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(224, 173, 74, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.vedic-masterclass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), #f59e0b, var(--gold));
+}
+
+.sutra-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.sutra-title-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sutra-sanskrit {
+  font-family: 'Cinzel', serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--gold2);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.sutra-meaning {
+  font-size: 0.92rem;
+  color: var(--gold);
+  font-style: italic;
+  font-weight: 500;
+}
+
+.sutra-rule-callout {
+  background: rgba(224, 173, 74, 0.08);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 var(--rad-sm) var(--rad-sm) 0;
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1.4rem;
+  line-height: 1.6;
+  font-size: 0.92rem;
+  color: var(--fg);
+}
+
+.sutra-algebra-pill {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px dashed rgba(224, 173, 74, 0.4);
+  border-radius: 4px;
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  font-size: 0.88rem;
+  color: #fcd34d;
+}
+
+.sutra-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.sutra-step-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(224, 173, 74, 0.2);
+  border-radius: var(--rad-sm);
+  padding: 1rem;
+  transition: all var(--trans-fast);
+}
+
+.sutra-step-card:hover {
+  background: rgba(224, 173, 74, 0.08);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.sutra-step-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--gold2);
+  margin-bottom: 0.4rem;
+}
+
+.sutra-step-detail {
+  font-size: 0.84rem;
+  color: var(--fg);
+  line-height: 1.5;
+}
+
+/* Interactive Vedic Playground */
+.vedic-playground-box {
+  background: rgba(14, 8, 4, 0.85);
+  border: 1px solid rgba(224, 173, 74, 0.3);
+  border-radius: var(--rad-sm);
+  padding: 1.3rem;
+  margin-top: 1rem;
+}
+
+.vplay-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.vplay-presets {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.vplay-preset-btn {
+  background: rgba(224, 173, 74, 0.12);
+  border: 1px solid rgba(224, 173, 74, 0.3);
+  color: var(--fg);
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.vplay-preset-btn:hover, .vplay-preset-btn.active {
+  background: var(--gold);
+  color: #1a0d04;
+  border-color: var(--gold);
+  font-weight: 700;
+}
+
+.vplay-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.vplay-input {
+  width: 90px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--gold);
+  border-radius: var(--rad-sm);
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.vplay-step-visualizer {
+  margin-top: 1.2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(224, 173, 74, 0.25);
+  border-radius: var(--rad-sm);
+  animation: fi 0.3s ease;
+}
+
+/* Guided Practice */
+.guided-practice-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(224, 173, 74, 0.25);
+  border-radius: var(--rad-sm);
+  padding: 1.2rem;
+  margin-top: 1rem;
+}
+
+.guided-step-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-wrap: wrap;
+}
+
+.guided-step-row:last-child {
+  border-bottom: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   2. ZERO LABORATORY STYLES
+   ═══════════════════════════════════════════════════ */
+
+.zero-lab-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.2rem;
+}
+
+.zero-tabs {
+  display: flex;
+  gap: 0.8rem;
+  border-bottom: 1px solid rgba(224, 173, 74, 0.2);
+  padding-bottom: 0.5rem;
+  overflow-x: auto;
+}
+
+.zero-tab-btn {
+  padding: 0.65rem 1.3rem;
+  background: rgba(26, 17, 10, 0.7);
+  border: 1px solid rgba(224, 173, 74, 0.25);
+  color: var(--muted);
+  border-radius: var(--rad-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--trans-fast);
+}
+
+.zero-tab-btn.active {
+  background: rgba(224, 173, 74, 0.2);
+  border-color: var(--gold);
+  color: var(--gold2);
+  box-shadow: 0 0 14px rgba(224, 173, 74, 0.25);
+}
+
+/* Position Experiment Area */
+.exp-stage {
+  background: var(--teach-surface);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  padding: 2.2rem;
+  text-align: center;
+}
+
+.exp-slots-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+  margin: 2.5rem 0 1.8rem;
+  flex-wrap: wrap;
+}
+
+.exp-slot-drop {
+  width: 90px;
+  height: 100px;
+  border: 2px dashed rgba(224, 173, 74, 0.4);
+  border-radius: var(--rad-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all var(--trans-fast);
+  position: relative;
+}
+
+.exp-slot-drop:hover {
+  border-color: var(--gold);
+  background: rgba(224, 173, 74, 0.12);
+  transform: translateY(-2px);
+}
+
+.exp-slot-drop.has-zero {
+  border-style: solid;
+  border-color: var(--gold);
+  background: rgba(224, 173, 74, 0.2);
+  box-shadow: 0 0 18px rgba(224, 173, 74, 0.3);
+}
+
+.exp-digit-card {
+  width: 75px;
+  height: 90px;
+  background: linear-gradient(135deg, #382416 0%, #1e120a 100%);
+  border: 2px solid var(--gold);
+  border-radius: var(--rad-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--gold2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+  user-select: none;
+}
+
+.exp-zero-token {
+  width: 75px;
+  height: 90px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 100%);
+  border: 2px solid #fff;
+  border-radius: var(--rad-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: #1a0d04;
+  box-shadow: 0 6px 24px rgba(224, 173, 74, 0.5);
+  cursor: pointer;
+  user-select: none;
+}
+
+.value-magnitude-meter {
+  max-width: 650px;
+  margin: 1.8rem auto;
+  text-align: left;
+}
+
+.meter-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.meter-track {
+  height: 18px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(224, 173, 74, 0.3);
+  border-radius: 9px;
+  overflow: hidden;
+  position: relative;
+}
+
+.meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold) 0%, #ff5722 100%);
+  border-radius: 9px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Save the Number Arcade Panel */
+.save-game-panel {
+  background: var(--teach-surface);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  padding: 2.2rem;
+  text-align: center;
+  position: relative;
+}
+
+.timer-ring-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bad);
+  padding: 0.4rem 1.2rem;
+  border: 1px solid rgba(232, 144, 122, 0.4);
+  border-radius: 30px;
+  background: rgba(232, 144, 122, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+.slots-drop-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.column-slot-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.column-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+/* Zero History Timeline */
+.history-ribbon {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hist-mile-card {
+  background: var(--teach-surface);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  padding: 1.6rem;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+  transition: transform var(--trans);
+}
+
+@media (max-width: 600px) {
+  .hist-mile-card {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+}
+
+.hist-mile-card:hover {
+  transform: translateX(4px);
+  border-color: var(--gold);
+}
+
+.hist-era-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--gold);
+  border-right: 2px solid rgba(224, 173, 74, 0.3);
+  padding-right: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════
+   3. MATHEMATICAL DETECTIVE STYLES
+   ═══════════════════════════════════════════════════ */
+
+.detective-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.detective-level-selector {
+  display: flex;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(224, 173, 74, 0.2);
+  padding-bottom: 0.6rem;
+}
+
+.level-badge-btn {
+  padding: 0.65rem 1.3rem;
+  background: rgba(26, 17, 10, 0.7);
+  border: 1px solid rgba(224, 173, 74, 0.3);
+  border-radius: var(--rad-sm);
+  color: var(--fg);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.level-badge-btn.active {
+  background: rgba(224, 173, 74, 0.2);
+  border-color: var(--gold);
+  color: var(--gold2);
+  box-shadow: 0 0 14px rgba(224, 173, 74, 0.25);
+}
+
+.case-dossier {
+  background: var(--teach-surface);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  padding: 2.2rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+.case-dossier-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(224, 173, 74, 0.2);
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.case-title {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  color: var(--gold2);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.case-statement-box {
+  font-size: 1.15rem;
+  color: var(--fg);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1rem 1.4rem;
+  border-radius: var(--rad-sm);
+  border-left: 3px solid var(--gold);
+  margin-bottom: 1.8rem;
+  line-height: 1.6;
+}
+
+.case-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.case-step-item {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: rgba(20, 13, 8, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--rad-sm);
+  padding: 1rem 1.4rem;
+  cursor: pointer;
+  transition: all var(--trans-fast);
+}
+
+.case-step-item:hover {
+  background: rgba(224, 173, 74, 0.12);
+  border-color: var(--gold);
+  transform: translateX(4px);
+}
+
+.case-step-num {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(224, 173, 74, 0.15);
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--gold2);
+  flex-shrink: 0;
+}
+
+.case-step-text {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  font-size: 1.05rem;
+  color: var(--fg);
+  flex-grow: 1;
+}
+
+.case-step-item.accused-wrong {
+  border-color: var(--bad);
+  background: rgba(232, 144, 122, 0.15);
+}
+
+.case-step-item.accused-correct {
+  border-color: var(--ok);
+  background: rgba(126, 203, 106, 0.15);
+}
+
+.case-solved-stamp {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  border: 3px solid var(--ok);
+  color: var(--ok);
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transform: rotate(-4deg);
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(126, 203, 106, 0.4);
+  animation: popStamp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes popStamp {
+  0% { transform: scale(1.6) rotate(10deg); opacity: 0; }
+  100% { transform: scale(1) rotate(-4deg); opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════
+   4. ANCIENT ENGINEER'S WORKSHOP STYLES
+   ═══════════════════════════════════════════════════ */
+
+.workshop-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.workshop-canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  background: radial-gradient(ellipse at center, #1f140b 0%, #100a05 100%);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.workshop-canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.workshop-controls {
+  background: var(--teach-surface);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  padding: 1.6rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.slider-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-grow: 1;
+  max-width: 500px;
+}
+
+.workshop-slider {
+  flex-grow: 1;
+  accent-color: var(--gold);
+  height: 6px;
+  cursor: pointer;
+}
+
+.meas-readout {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--fg);
+}
+
+.meas-item strong {
+  color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════════════
+   5. SCHOLAR'S MANUSCRIPT STYLES
+   ═══════════════════════════════════════════════════ */
+
+.manuscript-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.parchment-scroll {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(210, 180, 140, 0.2) 0%, transparent 70%),
+    linear-gradient(to bottom, #f3e6cf 0%, #ecdcb9 100%);
+  color: var(--teach-parchment-text);
+  border: 2px solid #b89868;
+  border-radius: var(--rad);
+  padding: 2.5rem 3rem;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7), inset 0 0 50px rgba(139, 90, 43, 0.2);
+  position: relative;
+  font-family: 'Cinzel', serif;
+}
+
+.parchment-scroll h2,
+.parchment-scroll h3 {
+  color: #4a2810;
+  text-align: center;
+  margin-top: 0;
+}
+
+.sanskrit-verse {
+  font-family: 'Noto Sans Devanagari', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  text-align: center;
+  color: #702a14;
+  margin: 1.5rem 0 0.8rem;
+  line-height: 1.8;
+}
+
+.sanskrit-meaning {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  text-align: center;
+  color: #5c3a21;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.manuscript-clue-card {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(139, 90, 43, 0.3);
+  border-radius: var(--rad-sm);
+  padding: 1.6rem;
+  margin-bottom: 1.8rem;
+  font-family: 'Inter', sans-serif;
+  color: #26160c;
+  position: relative;
+  overflow: hidden;
+}
+
+.manuscript-clue-card.smudged::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(30, 18, 10, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 5;
+  transition: opacity 0.8s ease;
+}
+
+.manuscript-clue-card.cleared::after {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   6. KNOWLEDGE CONSTELLATION STYLES
+   ═══════════════════════════════════════════════════ */
+
+.constellation-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.constellation-canvas-wrap {
+  width: 100%;
+  height: 520px;
+  background: radial-gradient(ellipse at center, #1a0f07 0%, #070402 100%);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.8);
+}
+
+.constellation-canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+.achieve-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+  margin-top: 1.5rem;
+}
+
+.achieve-card {
+  background: var(--teach-surface);
+  border: 1px solid var(--teach-border);
+  border-radius: var(--rad-sm);
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0.5;
+  filter: grayscale(1);
+  transition: all var(--trans);
+}
+
+.achieve-card.unlocked {
+  opacity: 1;
+  filter: none;
+  border-color: var(--gold);
+  background: linear-gradient(135deg, rgba(35, 22, 13, 0.9) 0%, rgba(20, 12, 7, 0.9) 100%);
+  box-shadow: 0 4px 20px rgba(224, 173, 74, 0.2);
+}
+
+.achieve-icon {
+  font-size: 2.2rem;
+}
+
+.achieve-info h4 {
+  margin: 0 0 0.2rem;
+  font-size: 1rem;
+  color: var(--gold2);
+}
+
+.achieve-info p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+}

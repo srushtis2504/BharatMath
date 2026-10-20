@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="timeline.css">
+  <link rel="stylesheet" href="teaching.css">
 </head>
 <body>
 
@@ -22,9 +23,14 @@
       <div class="tag">Ancient Wisdom · Infinite Possibilities</div>
       <h1>BharatMath</h1>
       <p class="home-desc">Travel back through time — from today to the oldest roots of Indian mathematics.<br>Pick an era, solve challenges, earn XP.</p>
-      <button class="btn-pri" id="start">
-         Let's start the journey
-      </button>
+      <div class="home-actions">
+        <button class="btn-pri" id="start">
+           Let's start the journey
+        </button>
+        <button class="btn-sec" id="open-teaching">
+           🧮 Interactive Teaching Hub ✦
+        </button>
+      </div>
       <div class="home-stats" id="home-stats" aria-live="polite"></div>
     </div>
     <div id="num-cloud" aria-hidden="true"></div>
@@ -49,6 +55,7 @@
         <input id="tl-search" type="search" placeholder="Search timeline events…" aria-label="Search timeline events">
       </div>
       <div class="tl-btns">
+        <button id="open-teaching-tl" class="tl-icon-btn" title="Interactive Teaching Hub" aria-label="Teaching Hub">🧮</button>
         <button id="tn"    class="tl-icon-btn" title="Auto-travel from 2026" aria-label="Auto-travel">▶</button>
         <button id="zo"    class="tl-icon-btn" title="Zoom out" aria-label="Zoom out">−</button>
         <button id="zi"    class="tl-icon-btn" title="Zoom in"  aria-label="Zoom in">+</button>
@@ -91,6 +98,13 @@
   <!-- ══ ERA DETAIL ════════════════════════════════ -->
   <main id="era" class="screen" aria-label="Era detail" aria-live="polite"></main>
 
+  <!-- ══ TEACHING HUB ══════════════════════════════ -->
+  <main id="teaching" class="screen" aria-label="Teaching Activities" aria-live="polite">
+    <div class="teach-inner" id="teach-inner">
+      <!-- Dynamically populated by JS: hub grid or active activity module -->
+    </div>
+  </main>
+
   <!-- ══ ANIMATION OVERLAY ═════════════════════════ -->
   <div id="anim" role="dialog" aria-modal="true" aria-label="Era animation" class="overlay"></div>
 
@@ -122,8 +136,15 @@
     </div>
   </aside>
 
-  <script src="data.js"></script>
-  <script src="app.js"></script>
-  <script src="timeline.js"></script>
+  <script src="data.js?v=2"></script>
+  <script src="app.js?v=2"></script>
+  <script src="timeline.js?v=2"></script>
+  <!-- Teaching Section Interactive Modules -->
+  <script src="teaching/two-paths.js?v=2"></script>
+  <script src="teaching/zero-lab.js?v=2"></script>
+  <script src="teaching/detective.js?v=2"></script>
+  <script src="teaching/workshop.js?v=2"></script>
+  <script src="teaching/manuscript.js?v=2"></script>
+  <script src="teaching/constellation.js?v=2"></script>
 </body>
 </html>

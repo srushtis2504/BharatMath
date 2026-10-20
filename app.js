@@ -12,7 +12,25 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 /* ─── Persistent state ──────────────────────────── */
 let S = { xp: 0, done: [] };
 try { S = Object.assign(S, JSON.parse(localStorage.getItem('bm4') || '{}')); } catch(_) {}
+S.teach = S.teach || {
+  twoPaths: { completed: [], currentProblem: 0 },
+  zeroLab: { completed: [], puzzlesSolved: 0 },
+  detective: { completed: [], level: 1 },
+  workshop: { completed: [], constructions: [] },
+  manuscript: { completed: [], cluesSolved: 0 },
+  constellation: { unlocked: [], achievements: [] }
+};
 const save = () => { try { localStorage.setItem('bm4', JSON.stringify(S)); } catch(_) {} };
+
+function awardXP(amount, reason) {
+  S.xp = (S.xp || 0) + amount;
+  save();
+  updateHomeStats();
+  if (typeof checkConstellationAchievements === 'function') {
+    try { checkConstellationAchievements(); } catch(_) {}
+  }
+  say(`⚡ +${amount} XP! ${reason || 'Knowledge unlocked!'} 🐾`, true);
+}
 
 /* ─── Screen transitions ────────────────────────── */
 /**
@@ -158,6 +176,9 @@ function showEra(eraIdx, evIdx) {
     <div class="era-inner">
       <div class="top-bar">
         <button id="back" aria-label="Back to timeline">◀ Timeline</button>
+        <button id="era-to-teach" class="teach-back-btn" style="border-radius:20px; font-size:0.85rem;" aria-label="Open Teaching Hub">
+          🧮 Interactive Hub
+        </button>
         <span class="xp-badge" id="xp-badge">${lvlStr()}</span>
       </div>
       <div class="era-hero">
@@ -251,6 +272,12 @@ $('#era').addEventListener('click', e => {
       const svg = document.getElementById('tl');
       if (svg) svg.focus({ preventScroll: true });
     });
+    return;
+  }
+
+  if (btn.id === 'era-to-teach') {
+    $('#cat').classList.remove('on');
+    openTeaching();
     return;
   }
 
@@ -436,7 +463,7 @@ function playAnim(eraIdx, targetYear, done) {
    say, updateHomeStats, lvlStr, save, S, FUN.
    ─────────────────────────────────────────────────── */
 
-/* Expose helpers needed by timeline.js */
+/* Expose helpers needed by timeline.js & teaching modules */
 window.updateHomeStats = updateHomeStats;
 window.showScreen      = showScreen;
 window.showEra         = showEra;
@@ -444,4 +471,211 @@ window.playAnim        = playAnim;
 window.say             = say;
 window.S               = S;
 window.lvlStr          = lvlStr;
+window.awardXP         = awardXP;
+
+/* ═══════════════════════════════════════════════════
+   TEACHING HUB SYSTEM
+   ═══════════════════════════════════════════════════ */
+
+function getActivityProgress(id) {
+  if (!S.teach || !S.teach[id]) return { current: 0, total: 1, percent: 0 };
+  const t = S.teach[id];
+  if (id === 'twoPaths') {
+    const done = (t.completed || []).length;
+    const total = (TEACH_DATA.twoPaths || []).length;
+    return { current: done, total, percent: Math.round((done / total) * 100) };
+  }
+  if (id === 'zeroLab') {
+    const done = (t.completed || []).length;
+    const total = 4; // 4 modes/experiments
+    return { current: done, total, percent: Math.round((done / total) * 100) };
+  }
+  if (id === 'detective') {
+    const done = (t.completed || []).length;
+    const total = 9; // 9 cases
+    return { current: done, total, percent: Math.round((done / total) * 100) };
+  }
+  if (id === 'workshop') {
+    const done = (t.completed || []).length;
+    const total = (TEACH_DATA.workshop.experiments || []).length;
+    return { current: done, total, percent: Math.round((done / total) * 100) };
+  }
+  if (id === 'manuscript') {
+    const done = (t.completed || []).length;
+    const total = (TEACH_DATA.manuscript.clues || []).length;
+    return { current: done, total, percent: Math.round((done / total) * 100) };
+  }
+  if (id === 'constellation') {
+    const done = (t.unlocked || []).length;
+    const total = (TEACH_DATA.constellation.nodes || []).length;
+    return { current: done, total, percent: Math.round((done / total) * 100) };
+  }
+  return { current: 0, total: 1, percent: 0 };
+}
+
+function renderTeachingHub() {
+  const container = $('#teach-inner');
+  if (!container) return;
+
+  const activities = TEACH_DATA.activities || [];
+  let totalSolved = 0;
+  activities.forEach(a => {
+    totalSolved += (getActivityProgress(a.id).current || 0);
+  });
+
+  let cardsHtml = '';
+  activities.forEach(act => {
+    const prog = getActivityProgress(act.id);
+    cardsHtml += `
+      <article class="teach-card" data-act="${act.id}">
+        <div>
+          <div class="teach-card-top">
+            <span class="teach-card-icon" aria-hidden="true">${act.icon}</span>
+            <span class="teach-badge">${act.badge}</span>
+          </div>
+          <h2 class="teach-card-title">${act.title}</h2>
+          <div class="teach-card-tagline">${act.tagline}</div>
+          <p class="teach-card-desc">${act.desc}</p>
+        </div>
+        <div>
+          <div class="teach-card-meta">
+            <span>⏱️ ${act.duration}</span>
+            <span class="teach-card-xp">⚡ +${act.xp} XP</span>
+          </div>
+          <div class="teach-progress-wrap">
+            <div class="teach-progress-labels">
+              <span>Progress</span>
+              <span>${prog.current}/${prog.total} (${prog.percent}%)</span>
+            </div>
+            <div class="teach-progress-bar">
+              <div class="teach-progress-fill" style="width: ${prog.percent}%"></div>
+            </div>
+          </div>
+          <button class="teach-card-btn" data-act="${act.id}" aria-label="Launch ${act.title}">
+            Launch Lab ✦
+          </button>
+        </div>
+      </article>
+    `;
+  });
+
+  container.innerHTML = `
+    <!-- Top Nav Header -->
+    <header class="teach-nav-bar">
+      <div class="teach-nav-left">
+        <button id="teach-back-home" class="teach-back-btn" aria-label="Back to home">
+          ◀ Back to Home
+        </button>
+        <button id="teach-to-tl" class="teach-back-btn" aria-label="Explore timeline">
+          🌐 Timeline
+        </button>
+        <h2 class="teach-nav-title">BharatMath Interactive Teaching Hub</h2>
+      </div>
+      <div class="teach-nav-right">
+        <span class="teach-xp-pill">⚡ ${S.xp} XP</span>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="teach-hero">
+      <div class="teach-hero-om" aria-hidden="true">ॐ</div>
+      <div class="teach-hero-tag">Active Mathematics · Authentic Lineage</div>
+      <h1>Interactive Teaching Hub</h1>
+      <p class="teach-hero-desc">
+        Experience ancient Indian mathematics firsthand. Do not merely read history — step inside the algorithms, manipulate place values, deduce fallacies, pull geometric ropes, and illuminate your constellation of ideas.
+      </p>
+
+      <div class="teach-journey-bar" aria-label="Learning pathway">
+        <span class="teach-journey-step active">Discover (Two Paths)</span>
+        <span class="teach-journey-sep">→</span>
+        <span class="teach-journey-step">Experiment (Zero Lab)</span>
+        <span class="teach-journey-sep">→</span>
+        <span class="teach-journey-step">Deduce (Detective)</span>
+        <span class="teach-journey-sep">→</span>
+        <span class="teach-journey-step">Construct (Workshop)</span>
+        <span class="teach-journey-sep">→</span>
+        <span class="teach-journey-step">Decipher (Manuscript)</span>
+        <span class="teach-journey-sep">→</span>
+        <span class="teach-journey-step">Connect (Constellation)</span>
+      </div>
+    </section>
+
+    <!-- Activities Grid -->
+    <section class="teach-cards-grid" aria-label="Interactive learning activities">
+      ${cardsHtml}
+    </section>
+  `;
+
+  // Attach button events
+  $('#teach-back-home').onclick = () => {
+    $('#cat').classList.remove('on');
+    showScreen('home');
+  };
+
+  $('#teach-to-tl').onclick = () => {
+    $('#cat').classList.remove('on');
+    showScreen('tls', () => {
+      if (typeof sizeTL === 'function') { sizeTL(); renderRail(); renderCards(); }
+    });
+  };
+
+  container.querySelectorAll('.teach-card-btn').forEach(b => {
+    b.onclick = (e) => {
+      const actId = e.currentTarget.dataset.act;
+      openTeaching(actId);
+    };
+  });
+
+  say("Welcome to the Teaching Hub! 6 interactive laboratories designed to bring ancient Indian mathematics alive. 🐾", true);
+}
+
+function openTeaching(activityId) {
+  showScreen('teaching', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (!activityId) {
+      renderTeachingHub();
+      return;
+    }
+
+    if (activityId === 'twoPaths' && typeof initTwoPaths === 'function') {
+      initTwoPaths();
+    } else if (activityId === 'zeroLab' && typeof initZeroLab === 'function') {
+      initZeroLab();
+    } else if (activityId === 'detective' && typeof initDetective === 'function') {
+      initDetective();
+    } else if (activityId === 'workshop' && typeof initWorkshop === 'function') {
+      initWorkshop();
+    } else if (activityId === 'manuscript' && typeof initManuscript === 'function') {
+      initManuscript();
+    } else if (activityId === 'constellation' && typeof initConstellation === 'function') {
+      initConstellation();
+    } else {
+      renderTeachingHub();
+    }
+  });
+}
+
+window.openTeaching = openTeaching;
+window.renderTeachingHub = renderTeachingHub;
+
+// Wire up open teaching buttons
+const homeTeachBtn = $('#open-teaching');
+if (homeTeachBtn) {
+  homeTeachBtn.onclick = () => openTeaching();
+}
+
+const tlTeachBtn = $('#open-teaching-tl');
+if (tlTeachBtn) {
+  tlTeachBtn.onclick = () => openTeaching();
+}
+
+// Check hash on initial load or change
+if (window.location.hash === '#teaching') {
+  setTimeout(() => openTeaching(), 100);
+}
+window.addEventListener('hashchange', () => {
+  if (window.location.hash === '#teaching') openTeaching();
+});
+
+
 
