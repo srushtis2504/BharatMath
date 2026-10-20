@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Travel through time and explore the ancient roots of Indian mathematics — from the Vedic age to Ramanujan.">
+  <title>BharatMath — Ancient Wisdom. Infinite Possibilities.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="timeline.css">
+</head>
+<body>
+
+  <!-- ══ HOME ══════════════════════════════════════ -->
+  <section id="home" class="screen active" aria-label="Welcome">
+    <canvas id="stars" aria-hidden="true"></canvas>
+    <div class="home-fg">
+      <div class="om-symbol" aria-hidden="true">ॐ</div>
+      <div class="tag">Ancient Wisdom · Infinite Possibilities</div>
+      <h1>BharatMath</h1>
+      <p class="home-desc">Travel back through time — from today to the oldest roots of Indian mathematics.<br>Pick an era, solve challenges, earn XP.</p>
+      <button class="btn-pri" id="start">
+         Let's start the journey
+      </button>
+      <div class="home-stats" id="home-stats" aria-live="polite"></div>
+    </div>
+    <div id="num-cloud" aria-hidden="true"></div>
+  </section>
+
+  <!-- ══ CINEMATIC TIMELINE ════════════════════════ -->
+  <section id="tls" class="screen" aria-label="Timeline">
+
+    <!-- Top header bar -->
+    <header class="tl-header">
+      <div class="tl-title-block">
+        <h2 class="tl-title">Timeline</h2>
+        <p class="tl-subtitle">Explore the evolution of Indian mathematics across time.<br>Click on an era to zoom in.</p>
+      </div>
+      <nav class="tl-tabs" role="tablist" aria-label="Timeline views">
+        <button class="tl-tab active" id="tab-overview" role="tab" aria-selected="true" data-tab="overview">Overview</button>
+        <button class="tl-tab" id="tab-era"      role="tab" aria-selected="false" data-tab="era">Era View</button>
+        <button class="tl-tab" id="tab-event"    role="tab" aria-selected="false" data-tab="event">Event View</button>
+      </nav>
+      <div class="tl-search-wrap">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#cdb797" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="tl-search" type="search" placeholder="Search timeline events…" aria-label="Search timeline events">
+      </div>
+      <div class="tl-btns">
+        <button id="tn"    class="tl-icon-btn" title="Auto-travel from 2026" aria-label="Auto-travel">▶</button>
+        <button id="zo"    class="tl-icon-btn" title="Zoom out" aria-label="Zoom out">−</button>
+        <button id="zi"    class="tl-icon-btn" title="Zoom in"  aria-label="Zoom in">+</button>
+        <button id="home2" class="tl-icon-btn" title="Home"     aria-label="Home">⌂</button>
+      </div>
+    </header>
+
+    <!-- Era image strip (the cinematic panorama) -->
+    <div class="tl-stage" id="tl-stage">
+      <div class="tl-panorama-bg"></div>
+
+      <!-- Era image cards — rendered by JS into #tl-cards -->
+      <div class="tl-cards" id="tl-cards"></div>
+
+      <!-- The SVG timeline rail sits below the image strip -->
+      <div class="tl-rail-wrap">
+        <svg id="tl" tabindex="0" role="application"
+          aria-label="Interactive timeline rail. Arrow keys pan, +/- zoom. Click a dot to open an event.">
+        </svg>
+      </div>
+    </div>
+
+    <!-- Drag hint + nav row -->
+    <div class="tl-foot">
+      <button id="pe" class="tl-nav-btn" aria-label="Earlier era">←</button>
+      <span class="tl-drag-hint">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4m0 0h18"/></svg>
+        DRAG TO EXPLORE · SCROLL TO ZOOM
+      </span>
+      <button id="ne" class="tl-nav-btn" aria-label="Later era">→</button>
+    </div>
+
+    <!-- Ticker -->
+    <div id="ticker" aria-live="polite">
+      <span class="ticker-label">💡</span>
+      <span id="ticker-text"></span>
+    </div>
+  </section>
+
+  <!-- ══ ERA DETAIL ════════════════════════════════ -->
+  <main id="era" class="screen" aria-label="Era detail" aria-live="polite"></main>
+
+  <!-- ══ ANIMATION OVERLAY ═════════════════════════ -->
+  <div id="anim" role="dialog" aria-modal="true" aria-label="Era animation" class="overlay"></div>
+
+  <!-- ══ ACHARYA MEOW ══════════════════════════════ -->
+  <aside id="cat" role="complementary" aria-label="Acharya Meow">
+    <svg viewBox="0 0 120 130" role="img" aria-label="Scholar cat mascot" id="cs">
+      <path d="M20 130Q60 72 100 130Z" fill="#702A32"/>
+      <polygon points="30,42 34,10 52,32" fill="#8d9096"/>
+      <polygon points="90,42 86,10 68,32" fill="#8d9096"/>
+      <ellipse cx="60" cy="62" rx="34" ry="30" fill="#8d9096"/>
+      <path d="M54 34v10M60 32v10M66 34v10" stroke="#4b4e55" stroke-width="3"/>
+      <circle cx="60" cy="42" r="2.4" fill="#E08A1E"/>
+      <g class="eyes">
+        <ellipse cx="48" cy="62" rx="4" ry="5" fill="#111"/>
+        <ellipse cx="72" cy="62" rx="4" ry="5" fill="#111"/>
+      </g>
+      <g fill="none" stroke="#C6A05B" stroke-width="2">
+        <circle cx="48" cy="62" r="9"/>
+        <circle cx="72" cy="62" r="9"/>
+        <path d="M57 62h6"/>
+      </g>
+      <path d="M57 74l3 3 3-3z" fill="#d98a8a"/>
+      <path d="M52 80q8 6 16 0" stroke="#222" fill="none" stroke-width="1.5"/>
+      <rect x="82" y="96" width="30" height="20" rx="3" fill="#F5EBD8" stroke="#C6A05B"/>
+    </svg>
+    <div class="cat-body">
+      <p id="say"></p>
+      <button id="mute">Hide</button>
+    </div>
+  </aside>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="timeline.js"></script>
+</body>
+</html>

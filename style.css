@@ -1,0 +1,894 @@
+/* ═══════════════════════════════════════════════════
+   BharatMath — Design System
+   ═══════════════════════════════════════════════════ */
+
+/* ── 1. Tokens ─────────────────────────────────── */
+:root {
+  --bg:        #0f0a05;
+  --bg2:       #1b100a;
+  --bg3:       #24160f;
+  --card:      #2f1d12;
+  --card2:     #3d2518;
+  --fg:        #f4e6cf;
+  --muted:     #cdb797;
+  --gold:      #e0ad4a;
+  --gold2:     #f5c96a;
+  --amber:     #d4882a;
+  --line:      #5a3c28;
+  --ok:        #7ecb6a;
+  --bad:       #e8907a;
+  --rad:       14px;
+  --rad-sm:    8px;
+  --trans:     0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --trans-fast:0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── 2. Reset & Base ───────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: 'Cinzel', Georgia, serif;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: var(--rad-sm);
+}
+
+/* ── 3. Screen System & Transitions ───────────── */
+.screen {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--trans), transform var(--trans);
+  transform: translateY(12px) scale(0.99);
+  z-index: 1;
+}
+
+.screen.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0) scale(1);
+}
+
+.screen.exit {
+  opacity: 0;
+  transform: translateY(-12px) scale(0.99);
+  pointer-events: none;
+}
+
+/* Era screen needs to be scrollable */
+#era.screen {
+  position: relative;
+  display: block;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+#era.screen.active {
+  position: relative;
+  z-index: 10;
+}
+
+/* ── 4. Buttons ────────────────────────────────── */
+button {
+  font: 500 inherit;
+  cursor: pointer;
+  border: 1px solid var(--gold);
+  background: transparent;
+  color: var(--fg);
+  border-radius: var(--rad-sm);
+  padding: 0.45em 1em;
+  transition: background var(--trans-fast), color var(--trans-fast),
+              transform var(--trans-fast), box-shadow var(--trans-fast);
+  position: relative;
+  overflow: hidden;
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(224,173,74,0.3), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--trans-fast);
+}
+
+button:hover {
+  background: rgba(224, 173, 74, 0.15);
+  box-shadow: 0 0 18px rgba(224,173,74,0.25);
+  transform: translateY(-1px);
+}
+
+button:hover::after { opacity: 1; }
+
+button:active { transform: translateY(1px); }
+
+.btn-pri {
+  background: linear-gradient(135deg, var(--gold) 0%, var(--amber) 100%);
+  color: #1a0d04;
+  font-weight: 700;
+  border: none;
+  box-shadow: 0 4px 24px rgba(224,173,74,0.4), 0 0 0 1px rgba(224,173,74,0.2);
+}
+
+.btn-pri:hover {
+  background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 100%);
+  box-shadow: 0 6px 32px rgba(224,173,74,0.55), 0 0 0 1px rgba(224,173,74,0.4);
+  transform: translateY(-2px);
+}
+
+/* ── 5. Home Screen ────────────────────────────── */
+#home {
+  /* layers (top → bottom): centre scrim for text legibility, top/bottom vignette, photo */
+  background:
+    radial-gradient(ellipse 62% 58% at 50% 50%,
+      rgba(10,5,2,0.74) 0%, rgba(10,5,2,0.50) 55%, rgba(10,5,2,0.08) 100%),
+    linear-gradient(to bottom,
+      rgba(10,5,2,0.40) 0%, rgba(10,5,2,0) 28%, rgba(10,5,2,0) 62%, rgba(10,5,2,0.65) 100%),
+    url('img/home.png') 58% 45% / cover no-repeat,
+    #0a0603;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 1rem;
+  padding-top: calc(1rem + env(safe-area-inset-top, 0px));
+}
+
+#stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;            /* the photo has its own sky, so the star canvas is hidden */
+}
+
+.home-fg {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  animation: homeEntry 1.2s cubic-bezier(0.2, 0.8, 0.4, 1) both;
+}
+
+@keyframes homeEntry {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.om-symbol {
+  font-family: 'Noto Sans Devanagari', serif;
+  font-size: clamp(3rem, 10vw, 6rem);
+  color: var(--gold2);
+  opacity: 0.5;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 24px rgba(245,201,106,0.55), 0 2px 10px rgba(0,0,0,0.8);
+  animation: omPulse 4s ease-in-out infinite;
+}
+
+@keyframes omPulse {
+  0%, 100% { opacity: 0.38; transform: scale(1); }
+  50%       { opacity: 0.65; transform: scale(1.04); }
+}
+
+.tag {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--fg);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.9);
+}
+
+#home h1 {
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  color: transparent;
+  background: linear-gradient(135deg, #fff1cf 0%, var(--gold2) 45%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  margin: 0.1em 0 0.4em;
+  letter-spacing: 0.02em;
+  text-shadow: none;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,0.85)) drop-shadow(0 0 28px rgba(224,173,74,0.35));
+}
+
+.home-desc {
+  color: var(--fg);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.95), 0 0 2px rgba(0,0,0,0.6);
+  font-size: 1.05rem;
+  margin: 0.5rem 0 1.8rem;
+  line-height: 1.8;
+}
+
+#home .btn-pri {
+  font-size: 1.15rem;
+  padding: 0.75em 2em;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.home-stats {
+  margin-top: 1.5rem;
+  font-size: 0.88rem;
+  color: var(--fg);
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.home-stats span {
+  background: rgba(10,5,2,0.55);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(224,173,74,0.35);
+  border-radius: 50px;
+  padding: 0.25em 0.9em;
+}
+
+/* floating devanagari digits */
+#num-cloud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.num {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-family: 'Noto Sans Devanagari', serif;
+  color: var(--gold);
+  opacity: 0;
+  animation: numOut linear infinite;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes numOut {
+  0%   { transform: translate(-50%, -50%) scale(0.15); opacity: 0; }
+  12%  { opacity: 0.4; }
+  100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(2.8); opacity: 0; }
+}
+
+/* ── 6. Timeline Screen ────────────────────────── */
+#tls {
+  background: #0e0905;
+}
+
+#tl {
+  width: 100%;
+  height: calc(100% - 80px);
+  display: block;
+  touch-action: pan-y;
+  cursor: grab;
+}
+
+#tl:active { cursor: grabbing; }
+
+/* Fun-fact ticker */
+#ticker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, rgba(14,9,5,0) 0%, rgba(14,9,5,0.9) 8%, rgba(14,9,5,0.9) 92%, rgba(14,9,5,0) 100%);
+  padding: 0.55rem 1.5rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(90,60,40,0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  z-index: 3;
+}
+
+.ticker-label {
+  color: var(--gold);
+  font-weight: 600;
+  flex: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+#ticker-text {
+  transition: opacity 0.6s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Timeline controls */
+#ctl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80px;
+  display: flex;
+  gap: 0.4rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 0.7rem;
+  background: linear-gradient(to top, rgba(14,9,5,1) 0%, rgba(14,9,5,0) 100%);
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+#ctl button {
+  background: rgba(27, 16, 10, 0.85);
+  font-size: 0.85rem;
+  padding: 0.35em 0.85em;
+  backdrop-filter: blur(8px);
+}
+
+/* ── 7. Era Detail Screen ──────────────────────── */
+#era {
+  background: var(--bg);
+  padding-top: calc(1rem + env(safe-area-inset-top, 0px));
+}
+
+.era-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 1.2rem 4rem;
+}
+
+.top-bar {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  padding: 0.6rem 0;
+  background: linear-gradient(to bottom, var(--bg) 80%, transparent);
+}
+
+.xp-badge {
+  margin-left: auto;
+  font-size: 0.82rem;
+  color: var(--gold);
+  background: rgba(224,173,74,0.1);
+  border: 1px solid rgba(224,173,74,0.25);
+  border-radius: 50px;
+  padding: 0.25em 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.era-hero {
+  background: linear-gradient(135deg, rgba(224,173,74,0.08), rgba(224,173,74,0.03));
+  border: 1px solid rgba(224,173,74,0.2);
+  border-radius: var(--rad);
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.era-hero h2 {
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  color: var(--gold);
+  margin-bottom: 0.2rem;
+}
+
+.era-dates {
+  font-family: 'Cinzel', serif;
+  font-size: 0.88rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.7rem;
+}
+
+.era-intro { color: var(--muted); font-size: 0.96rem; }
+
+/* Fun facts in era view */
+.funfact-strip {
+  display: flex;
+  gap: 0.7rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0.3rem 0 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.funfact-strip::-webkit-scrollbar { display: none; }
+
+.funfact-card {
+  flex: none;
+  background: linear-gradient(135deg, rgba(224,173,74,0.12), rgba(160,100,30,0.08));
+  border: 1px solid rgba(224,173,74,0.22);
+  border-radius: var(--rad);
+  padding: 0.8rem 1rem;
+  max-width: 240px;
+  font-size: 0.84rem;
+  color: var(--fg);
+  position: relative;
+  overflow: hidden;
+  animation: slideIn 0.5s var(--d, 0s) both cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+  transition: transform var(--trans-fast), box-shadow var(--trans-fast);
+}
+.funfact-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.funfact-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--amber));
+}
+
+.funfact-emoji {
+  font-size: 1.4rem;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.funfact-title {
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.25rem;
+}
+
+/* Event panels */
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--rad);
+  padding: 1.2rem;
+  margin-top: 1rem;
+  transition: border-color var(--trans-fast), box-shadow var(--trans-fast);
+  animation: panelIn 0.5s var(--d, 0s) both cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes panelIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.panel:hover {
+  border-color: rgba(224,173,74,0.35);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 0 1px rgba(224,173,74,0.1);
+}
+
+.panel h3 {
+  font-size: 1.1rem;
+  color: var(--gold2);
+  margin-bottom: 0.2rem;
+}
+
+.panel-date {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+}
+
+.panel-note {
+  font-size: 0.82rem;
+  color: rgba(205,183,151,0.65);
+  margin-top: 0.4rem;
+}
+
+.panel-empty {
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.07);
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Challenge / Game section */
+.game {
+  border-top: 1px dashed rgba(107,74,51,0.6);
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.game-label {
+  font-weight: 600;
+  color: var(--gold);
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.game-q {
+  color: var(--fg);
+  margin-bottom: 0.8rem;
+  font-size: 0.97rem;
+}
+
+.game-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.game input[type="number"] {
+  width: 9rem;
+  font: inherit;
+  padding: 0.45em 0.7em;
+  border-radius: var(--rad-sm);
+  border: 1px solid var(--gold);
+  background: var(--bg2);
+  color: var(--fg);
+  transition: border-color var(--trans-fast), box-shadow var(--trans-fast);
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+.game input[type="number"]::-webkit-inner-spin-button,
+.game input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+.game input:focus {
+  border-color: var(--gold2);
+  box-shadow: 0 0 0 3px rgba(224,173,74,0.2);
+  outline: none;
+}
+
+.game-result {
+  margin-top: 0.6rem;
+  font-size: 0.92rem;
+  min-height: 1.5em;
+  transition: opacity var(--trans-fast);
+}
+
+.ok  { color: var(--ok);  font-weight: 600; }
+.bad { color: var(--bad); }
+
+.done-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  background: rgba(126,203,106,0.15);
+  border: 1px solid rgba(126,203,106,0.35);
+  border-radius: 50px;
+  padding: 0.15em 0.6em;
+  font-size: 0.8rem;
+  color: var(--ok);
+  font-weight: 600;
+  margin-left: 0.4rem;
+}
+
+/* ── 8. Overlay / Animation ────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: radial-gradient(ellipse at center, #2c1a0e 0%, #0f0a05 75%);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1.5rem;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.overlay.on {
+  display: flex;
+  opacity: 1;
+}
+
+.overlay h2 {
+  color: var(--gold);
+  font-size: clamp(2rem, 8vw, 4rem);
+  margin-bottom: 0.2em;
+  text-shadow: 0 0 60px rgba(224,173,74,0.5);
+}
+
+.overlay svg {
+  width: min(88vw, 480px);
+  height: min(46vh, 330px);
+}
+
+.overlay p {
+  max-width: 560px;
+  margin: 0.5rem auto;
+  color: var(--muted);
+}
+
+.overlay .skip-btn {
+  margin-top: 1.2rem;
+  font-size: 0.88rem;
+  opacity: 0.7;
+}
+
+/* Anim paths */
+.dr {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw 1.6s ease forwards;
+  animation-delay: var(--d, 0s);
+}
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.fi {
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+  animation-delay: var(--d, 0s);
+}
+@keyframes fadeIn { to { opacity: 1; } }
+
+.fl {
+  transform-origin: 80px 235px;
+  animation: flicker 0.6s ease-in-out infinite alternate;
+}
+@keyframes flicker { to { transform: scale(1.12, 0.92); } }
+
+/* ── 9. Acharya Meow ───────────────────────────── */
+#cat {
+  position: fixed;
+  right: max(0.8rem, env(safe-area-inset-right, 0px));
+  bottom: calc(0.8rem + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  width: min(300px, calc(100vw - 1.6rem));
+  display: flex;
+  background: linear-gradient(135deg, #2f1d12, #1f1009);
+  border: 1px solid rgba(224,173,74,0.4);
+  border-radius: var(--rad);
+  padding: 0.6rem;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  transform: translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(224,173,74,0.1);
+}
+
+#cat.on {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+#cat svg { width: 56px; flex: none; }
+
+.cat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 0;
+}
+
+#say {
+  color: var(--fg);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+#cat button {
+  font-size: 0.72rem;
+  padding: 0.12em 0.5em;
+  align-self: flex-start;
+  opacity: 0.75;
+}
+
+/* cat eyes blink */
+.eyes ellipse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 5s infinite;
+}
+@keyframes blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97%            { transform: scaleY(0.08); }
+}
+
+/* cat hop */
+.hop {
+  animation: hop 0.45s 2 ease-out;
+}
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ── 10. Utility ───────────────────────────────── */
+.mono { font-family: ui-monospace, Menlo, Consolas, monospace; }
+
+/* ── 11. Reduced Motion ────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    transition-duration: 0.001s !important;
+  }
+  .screen { transform: none !important; }
+  .num { opacity: 0.18 !important; }
+  .fi  { opacity: 1 !important; }
+  .dr  { stroke-dashoffset: 0 !important; }
+}
+
+/* ── 12. Responsive ────────────────────────────── */
+@media (max-width: 480px) {
+  #ctl button { font-size: 0.78rem; padding: 0.3em 0.6em; }
+  .era-hero { padding: 0.9rem 1rem; }
+  .funfact-card { max-width: 200px; }
+}
+
+/* ══════════════════════════════════════════════════
+   FLIP CARDS — Fun Facts
+   ══════════════════════════════════════════════════ */
+
+/* Replace the old funfact-strip / funfact-card styles */
+.funfact-strip {
+  display: flex;
+  gap: 1.2rem;
+  margin: 1rem 0 0.4rem;
+  padding: 0.2rem 0 0.4rem;
+  justify-content: flex-start;
+}
+
+/* Each flip-card wrapper */
+.flip-card {
+  flex: 1 1 0;
+  min-width: 220px;
+  max-width: 420px;
+  height: 170px;
+  perspective: 900px;
+  cursor: pointer;
+  animation: slideIn 0.55s var(--d, 0s) both cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Inner rotator */
+.flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.25, 1);
+  border-radius: 14px;
+}
+
+.flip-card:hover .flip-inner,
+.flip-card:focus-within .flip-inner,
+.flip-card.flipped .flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* Shared face styles */
+.flip-front,
+.flip-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.2rem 1.3rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Front face — heading side */
+.flip-front {
+  background: linear-gradient(135deg, #2f1c0e 0%, #1e1008 100%);
+  border: 1px solid rgba(224, 173, 74, 0.35);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+}
+
+.flip-front::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--amber));
+  border-radius: 14px 14px 0 0;
+}
+
+.flip-front-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 0.55rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.flip-front-label::after {
+  content: '⟳';
+  font-size: 0.7rem;
+  opacity: 0.55;
+  margin-left: auto;
+}
+
+.flip-front-head {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.88rem, 1.6vw, 1.05rem);
+  font-weight: 700;
+  color: var(--fg);
+  line-height: 1.35;
+}
+
+/* Back face — detail side */
+.flip-back {
+  background: linear-gradient(135deg, #1a2e1a 0%, #0d1f0d 100%);
+  border: 1px solid rgba(126, 203, 106, 0.3);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+  transform: rotateY(180deg);
+}
+
+.flip-back::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #7ecb6a, #4aad3a);
+  border-radius: 14px 14px 0 0;
+}
+
+.flip-back-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ok);
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+
+.flip-back-detail {
+  font-size: 0.82rem;
+  color: rgba(244, 230, 207, 0.9);
+  line-height: 1.6;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 560px) {
+  .funfact-strip {
+    flex-direction: column;
+  }
+  .flip-card {
+    max-width: 100%;
+    height: 150px;
+  }
+}
